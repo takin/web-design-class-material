@@ -1,0 +1,12 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	background-color: rgb(255,230,230);
+	font-family: Tahoma;
+}
+#first-div {
+	border: 1px solid #f00;
+}
+.top-div {
+	margin-bottom: 20px;
+}
