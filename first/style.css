@@ -4,9 +4,9 @@ body {
 	background-color: rgb(255,230,230);
 	font-family: Tahoma;
 }
-#first-div {
+#outer-div {
 	border: 1px solid #f00;
 }
-.top-div {
+.box-styling {
 	margin-bottom: 20px;
 }
