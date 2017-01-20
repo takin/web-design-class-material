@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Latihan jQuery UI</title>
+    <link rel="stylesheet" href="./jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" href="./jquery-ui.1.12.1.custom/jquery-ui.structure.css">
+    <link rel="stylesheet" href="./jquery-ui.1.12.1.custom/jquery-ui.theme.css">
+    <style>
+        #container {
+            width: 500px;
+            margin: auto;
+        }
+        .theDiv {
+            background-color:aqua;
+            padding: 30px 50px; 
+            width:400px;
+            margin:10px auto;
+        }
+    </style>
+</head>
+<body>
+    
+    <button>Click Me</button>
+    <div class="theDiv" id="divToAnimate">
+        <p>ini adalah konten dari div yang akan di animasi</p>
+    </div>
+
+    <script src="./jquery-3.1.1.js" type="text/javascript"></script>
+    <script src="./jquery-ui-1.12.1.custom/jquery-ui.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            var theDiv = $(".theDiv");
+            var button = $("button").button();
+            var divIsHide = false;
+
+            button.click(function() {
+                button.button({
+                    disabled:true
+                })
+                if( divIsHide ) {
+                    theDiv.show("drop",{easing:'easeInBounce', direction:'up'},1000, function() {
+                        divIsHide = false;
+                        button.button({
+                            disabled:false
+                        });
+                    });
+                } else {
+                    theDiv.hide("drop",{easing:'easeOutBounce', direction:'down'},1000, function(){
+                        divIsHide = true;
+                        button.button({
+                            disabled:false
+                        });
+                    });
+                }
+            });
+
+        });
+
+
+    </script>
+</body>
+</html>

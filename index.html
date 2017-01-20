@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">ini adalah tombol</button>
+    <br/>
+    <br/>
+    <div id="main-content" style="border: 1px solid #f00;background-color: #999; color:#fff;">
+        ini adlah div yang pertama
+    </div>
+    <div id="bottom-content">
+        ini adlah div yang ke dua
+    </div>
+   <script src="./jquery-3.1.1.js"></script>
+   <script>
+
+        function broadcaster(fungsi) {
+            setTimeout(function(){
+                fungsi.call(this,{nama:'hello'});
+            },3000);
+        }
+
+        function subscriber(data) {
+            console.log(data.nama);
+        }
+
+        broadcaster(subscriber);
+
+        broadcaster(function(sub) {
+            console.log('saya mendengarkan data ' + sub.nama);
+        });
+
+   </script>
+</body>
+</html>
