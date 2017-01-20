@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Latihan jQuery UI</title>
+    <link rel="stylesheet" href="./jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" href="./jquery-ui.1.12.1.custom/jquery-ui.structure.css">
+    <link rel="stylesheet" href="./jquery-ui.1.12.1.custom/jquery-ui.theme.css">
+    <style>
+        #container {
+            width: 500px;
+            margin: auto;
+        }
+        .theDiv {
+            background-color:aqua;
+            padding: 30px 50px; 
+            width:400px;
+            margin:50px auto 0px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="theDiv" id="divToAnimate">
+        <p>ini adalah konten dari div yang akan di animasi</p>
+        <p>Click untuk melihat animasi</p>
+    </div>
+
+    <script src="./jquery-3.1.1.js" type="text/javascript"></script>
+    <script src="./jquery-ui-1.12.1.custom/jquery-ui.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            var theDiv = $(".theDiv");
+            var button = $("button").button();
+
+            theDiv.click(function(){
+                $(this).effect("bounce",{easing:'easeOutElastic',distance:150},1000);
+            });
+
+        });
+
+
+    </script>
+</body>
+</html>
