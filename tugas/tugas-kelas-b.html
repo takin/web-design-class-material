@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Latihan jQuery UI</title>
+    <link rel="stylesheet" href="../jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" href="../jquery-ui.1.12.1.custom/jquery-ui.structure.css">
+    <link rel="stylesheet" href="../jquery-ui.1.12.1.custom/jquery-ui.theme.css">
+    <style>
+        .theDiv {
+            background-color:aqua;
+            padding: 30px 50px; 
+            width:400px;
+            margin:10px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="theDiv" id="divToBounce">
+        <p>ini adalah konten di dalam DIV yang kalau didekati mouse akan nge-bounce</p> 
+    </div>
+
+
+    <script src="../jquery-3.1.1.js" type="text/javascript"></script>
+    <script src="../jquery-ui-1.12.1.custom/jquery-ui.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var theDiv = $('#divToBounce');
+
+        theDiv.hover(startBounce, stopBounce);
+
+        function startBounce() {
+            $(this).data("bounce", true);
+            doBounce($(this));
+        }
+
+        function stopBounce() {
+            $(this).data("bounce", false);
+        }
+
+        function doBounce(elm) {
+            elm.effect('bounce',{distance:10,easing:'easeInBounce'},500, function() {
+                if( $(this).data('bounce') ) {
+                    doBounce(elm);
+                } else {
+                    elm.stop();
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

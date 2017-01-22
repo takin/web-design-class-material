@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Latihan jQuery UI</title>
+    <link rel="stylesheet" href="../jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" href="../jquery-ui.1.12.1.custom/jquery-ui.structure.css">
+    <link rel="stylesheet" href="../jquery-ui.1.12.1.custom/jquery-ui.theme.css">
+    <style>
+        #container {
+            width: 500px;
+            margin: auto;
+        }
+        .theDiv {
+            background-color:aqua;
+            padding: 30px 50px; 
+            width:400px;
+            margin-top:10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <button>Click Me</button>
+
+    <script src="../jquery-3.1.1.js" type="text/javascript"></script>
+    <script src="../jquery-ui-1.12.1.custom/jquery-ui.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            /** ------------------------------------------------- 
+             * Proses pembuatan element DIV yang akan di animasi
+             *----------------------------------------------------*/
+            var container = document.createElement("div");
+            container.setAttribute("id","container");
+
+
+            $("body").append(container);
+
+            for(let i = 1;i < 6; i++) {
+                var p = document.createTextNode(`ini adalah konten di dalam DIV ke ${i} yang kalau di klik akan menghilang`);
+                var theDiv = document.createElement("div");
+                theDiv.setAttribute("id",`divToHide-${i}`);
+                theDiv.setAttribute("class","theDiv");
+                theDiv.appendChild(p);
+                container.appendChild(theDiv);
+            }
+            /** ----------------------------------------------------------- */
+
+
+            var btn = $("button").button();
+
+            btn.click(function(){
+                animate(5);
+            });
+
+            /** Fungsi untuk melakukan animasi terhadap masing-masing div */
+            function animate(itemNum) {
+                if(itemNum > 0) {
+                    btn.button({
+                        disabled:true
+                    })
+
+                    $(`#divToHide-${itemNum}`).toggle("drop",{easing:"easeInBack", direction:"down"},1000, function() {
+                        itemNum--;
+                        animate(itemNum);
+                    });
+
+                } else {
+                    btn.button({
+                        disabled:false
+                    });
+                }
+
+            }
+
+        });
+
+
+    </script>
+</body>
+</html>
