@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        
+        #container {
+    width: 500px;
+    margin: auto;
+}
+.teamBox {
+    padding: 20px 30px;
+    border: 1px solid #fcc;
+    font-size: 38px;
+    border-radius: 5px;
+    background-color: rgba(240,140,240,.8);
+    color: rgb(255,255,255);
+    float:left;
+    margin-right:5px;
+    margin-top: 50px;
+}
+    
+    
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="totalTeamContainer">
+            <span>Jumlah total kelompok</span>
+            <input type="text" id="totalTeam">
+        </div>
+        <div id="numOfTeamToPerformContainer">
+            <span>Jumlah yang akan maju</span>
+            <input type="text" id="numOfTeamToPerform">
+        </div>
+        <button>Generate</button>
+    </div>
+    <script type="text/javascript">
+
+        window.addEventListener('DOMContentLoaded',(e) => {
+
+            var button = document.querySelector('button');
+
+            button.addEventListener('click', function(e){
+                var container = document.querySelector('#container');
+                var totalTeam = document.querySelector("#totalTeam").value;
+                var teamToPerform = document.querySelector('#numOfTeamToPerform').value;
+                
+                totalTeam = totalTeam ? totalTeam : 0;
+                teamToPerform = teamToPerform ? teamToPerform : 0;
+                
+                generateTeams(container, totalTeam);
+
+            });
+
+
+        });
+
+        function generateTeams(container, numOfTeam) {
+            for(let i = 1; i <= numOfTeam; i++) {
+                let div = document.createElement('div');
+                div.setAttribute('class','teamBox');
+                div.appendChild(document.createTextNode(i));
+                container.appendChild(div);
+            }
+            return container;
+        }
+
+    </script>
+</body>
+</html>

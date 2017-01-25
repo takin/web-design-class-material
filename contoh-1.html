@@ -22,6 +22,8 @@
 <body>
     
     <button>Click Me</button>
+    <button>Another Button</button>
+
     <div class="theDiv" id="divToAnimate">
         <p>ini adalah konten dari div yang akan di animasi</p>
     </div>
@@ -33,13 +35,17 @@
         $(document).ready(function() {
 
             var theDiv = $(".theDiv");
+            
+            theDiv.click(function(){
+                doAnimation();
+            });
+
+
             var button = $("button").button();
+            
             var divIsHide = false;
 
-            button.click(function() {
-                button.button({
-                    disabled:true
-                })
+            function doAnimation() {
                 if( divIsHide ) {
                     theDiv.show("drop",{easing:'easeInBounce', direction:'up'},1000, function() {
                         divIsHide = false;
@@ -55,6 +61,13 @@
                         });
                     });
                 }
+            }
+
+            button.click(function() {
+                doAnimation();
+                button.button({
+                    disabled:true
+                })
             });
 
         });

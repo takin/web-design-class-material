@@ -39,7 +39,7 @@
         }
 
         function doBounce(elm) {
-            elm.effect('bounce',{distance:10,easing:'easeInBounce'},500, function() {
+            elm.effect('bounce',{distance:70,direction:'up',easing:'easeOutQuad'},500, function() {
                 if( $(this).data('bounce') ) {
                     doBounce(elm);
                 } else {
