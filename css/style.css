@@ -23,7 +23,7 @@ input[type=text] {
     font-size: 25px;
     width: 93%
 }
-a#button{
+button#button{
     text-decoration: none;
     float: right;
     padding: 10px;
@@ -45,7 +45,7 @@ a#button{
 #numOfTeamToPerformContainer > span {
     margin-right:5px;
 }
-.teamBox {
+.teamBox,.selected {
     width: 99px;
     height: 50px;
     text-align: center;
@@ -53,10 +53,15 @@ a#button{
     display: none;
     font-size: 38px;
     border-radius: 5px;
-    background-color: rgba(240,140,240,.8);
     color: rgb(255,255,255);
     float:left;
     margin:3px;
+}
+.teamBox {
+    background-color: rgba(240,140,240,.8);
+}
+.selected {
+   background-color: rgb(90,180,80); 
 }
 .clr {
     height:1px;

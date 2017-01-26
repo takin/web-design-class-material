@@ -1,28 +1,29 @@
 $(document).ready(() => {
 
-    var button = $('#button');
+    var button = $('#button').button();
+    var totalTeam = $("#totalTeam");
+    var numberOfTeam = $('#numOfTeamToPerform');
 
     button.click((e) => {
-        e.preventDefault();
+        button.button({
+            disabled:true
+        });
         var count = 0;
         var container = $('#boxContainer');
         var teamToPerform = [];
 
         container.html('');
-
-        var totalTeam = $("#totalTeam").val();
-        var numberOfTeamToPerform = $('#numOfTeamToPerform').val();
         
-        totalTeam = totalTeam ? totalTeam : 1;
-        numberOfTeamToPerform = numberOfTeamToPerform ? numberOfTeamToPerform : 1;
+        var totalTeamValue = totalTeam.val() ? totalTeam.val() : 1;
+        var numberOfTeamToPerform = numberOfTeam.val() ? numberOfTeam.val() : 1;
         
-        generateTeams(container, totalTeam);
+        generateTeams(container, totalTeamValue);
         animate(1, function() {
             tic();
         });
 
         function animate(i, callback) {
-            if( i <= totalTeam ) {
+            if( i <= totalTeamValue ) {
                 setTimeout(() => {
                     $(`#box-${i}`).show({
                         duration:500,
@@ -39,24 +40,29 @@ $(document).ready(() => {
 
         function tic() {
             setTimeout(() => {
-                var x = Math.floor(Math.random() * (totalTeam - 1 + 1)) + 1;
+                var i = Math.floor(Math.random() * (totalTeamValue - 1 + 1)) + 1;
                 
-                while( teamToPerform.includes(x)) {
-                    x = Math.floor(Math.random() * (totalTeam - 1 + 1)) + 1;
+                while( teamToPerform.includes(i)) {
+                    i = Math.floor(Math.random() * (totalTeamValue - 1 + 1)) + 1;
                 }
                 
-                let divToHighlight = $(`div#box-${x}`);
-                divToHighlight.css('background-color','rgba(240,120,140,1)');
+                let divToHighlight = $(`div#box-${i}`);
+                divToHighlight.addClass('selected');
+                divToHighlight.removeClass('teamBox');
 
                 if( count < 10) {
-                    tac(x);
+                    tac(i);
                 } else {
-                    if( (teamToPerform.length < numberOfTeamToPerform - 1) && !teamToPerform.includes(x)  ) {
-                        teamToPerform.push(x);
-                        tic();
-                    } else if( teamToPerform.length < (numberOfTeamToPerform - 1) ) {
+                    if( (teamToPerform.length < numberOfTeamToPerform - 1) && !teamToPerform.includes(i) ||  ( teamToPerform.length <  numberOfTeamToPerform - 1)) {
+                        if( (teamToPerform.length < numberOfTeamToPerform - 1) && !teamToPerform.includes(i) ) {
+                            teamToPerform.push(i);
+                        }
                         count = 0;
                         tic();
+                    } else {
+                        button.button({
+                            disabled:false
+                        });
                     }
                 } 
             },100);
@@ -65,7 +71,8 @@ $(document).ready(() => {
         function tac(i) {
             setTimeout(() => {
                 let divToHighlight = $(`div#box-${i}`);
-                divToHighlight.css('background-color','rgba(240,140,240,.7)');
+                divToHighlight.addClass('teamBox')
+                divToHighlight.removeClass('selected');
                 count++;
                 tic();
             },100);
@@ -108,6 +115,4 @@ $(document).ready(() => {
             return container;
         }
     });
-
-
 });
