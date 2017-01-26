@@ -25,8 +25,8 @@ $(document).ready(() => {
         function animate(i, callback) {
             if( i <= totalTeamValue ) {
                 setTimeout(() => {
-                    $(`#box-${i}`).show({
-                        duration:500,
+                    $(`#box-${i}`).slideDown({
+                        duration:300,
                         easing:'easeOutBounce',
                         complete: function() {
                             animate(++i, callback);
