@@ -3,32 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <style>
-    #container {
-    width: 430px;
-    margin: auto;
-}
-#boxContainer {
-    margin-top: 50px;
-}
-.teamBox {
-    flex:1;
-    width: 100px;
-    text-align: center;
-    padding: 20px 0;
-    border: 1px solid #fcc;
-    font-size: 38px;
-    border-radius: 5px;
-    background-color: rgba(240,140,240,.8);
-    color: rgb(255,255,255);
-    float:left;
-    margin-right:5px;
-    margin-bottom: 5px;
-}
-    
-    
-    
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.css">
 </head>
 <body>
     <div id="container">
@@ -40,80 +16,14 @@
             <span>Jumlah yang akan maju</span>
             <input type="text" id="numOfTeamToPerform">
         </div>
-        <button>Generate</button>
+        <a href="#" id="button">Generate</a>
         <div id="boxContainer">
 
         </div>
+        <div class="clr"></div>
     </div>
-    <script type="text/javascript">
-
-
-        window.addEventListener('DOMContentLoaded',(e) => {
-
-            var button = document.querySelector('button');
-
-            button.addEventListener('click', function(e){
-                var count = 0;
-                var container = document.querySelector('#boxContainer');
-
-                container.innerHTML = '';
-
-                var totalTeam = document.querySelector("#totalTeam").value;
-                var numberOfTeamToPerform = document.querySelector('#numOfTeamToPerform').value;
-                
-                totalTeam = totalTeam ? totalTeam : 1;
-                numberOfTeamToPerform = numberOfTeamToPerform ? numberOfTeamToPerform : 1;
-                
-                generateTeams(container, totalTeam);
-                tic([]);
-
-                function tic(teamToPerform) {
-                    setTimeout(() => {
-                        var x = Math.floor(Math.random() * (totalTeam - 1)) + 1;
-                        while( teamToPerform.includes(x)) {
-                            x = Math.floor(Math.random() * (totalTeam - 1)) + 1;
-                        }
-                        let divToHighlight = document.querySelector(`div#box-${x}`);
-                        divToHighlight.style['background-color'] = 'rgba(240,120,140,1)';
-                        if( count < 10) {
-                            tac(teamToPerform, x);
-                        } else {
-                            if( (teamToPerform.length < numberOfTeamToPerform - 1) && !teamToPerform.includes(x)  ) {
-                                teamToPerform.push(x);
-                                tic(teamToPerform);
-                            } else if( teamToPerform.length < (numberOfTeamToPerform - 1) ) {
-                                count = 0;
-                                tic(teamToPerform);
-                            }
-                        } 
-                    },100);
-                }
-
-                function tac(teamToPerform, i) {
-                    setTimeout(() => {
-                        let divToHighlight = document.querySelector(`div#box-${i}`);
-                        divToHighlight.style['background-color'] = 'rgba(240,140,240,.7)';
-                        count++;
-                        tic(teamToPerform);
-                    },100);
-                }
-
-                function generateTeams(container, numOfTeam) {
-                    for(let i = 1; i <= numOfTeam; i++) {
-                        let div = document.createElement('div');
-                        div.setAttribute('id',`box-${i}`);
-                        div.setAttribute('class','teamBox');
-                        div.appendChild(document.createTextNode(i));
-                        container.appendChild(div);
-                    }
-                    return container;
-                }
-            });
-
-
-        });
-
-
-    </script>
+    <script src="jquery-3.1.1.js"></script>
+    <script src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="js/kelompok.js"></script>
 </body>
 </html>

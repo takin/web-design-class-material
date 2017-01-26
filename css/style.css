@@ -1,0 +1,65 @@
+
+
+body {
+    color: rgb(80,80,80);
+    font-family: tahoma;
+    background-color: rgb(250,250,250);
+}
+#container {
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgb(220,220,220);
+    padding: 20px;
+    width: 430px;
+    margin: 50px auto;
+    text-align: center;
+    background-color: rgba(255,255,255,1);
+}
+input[type=text] {
+    margin: 10px auto;
+    border: 1px solid rgba(200,200,200,.5);
+    border-radius: 5px;
+    padding: 15px 10px;
+    display: block;
+    font-size: 25px;
+    width: 93%
+}
+a#button{
+    text-decoration: none;
+    float: right;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top:20px;
+    background-color: rgba(10,153,30,.8);
+    border: none;
+    color: rgb(255,255,255);
+}
+#boxContainer {
+    margin: 100px auto 0 8px;
+}
+#totalTeamContainer {
+    padding: 10px 0px;
+}
+#totalTeamContainer > span {
+    margin-right: 10px;
+}
+#numOfTeamToPerformContainer > span {
+    margin-right:5px;
+}
+.teamBox {
+    width: 99px;
+    height: 50px;
+    text-align: center;
+    padding: 20px 0;
+    display: none;
+    font-size: 38px;
+    border-radius: 5px;
+    background-color: rgba(240,140,240,.8);
+    color: rgb(255,255,255);
+    float:left;
+    margin:3px;
+}
+.clr {
+    height:1px;
+    display:block;
+    clear:both;
+}
