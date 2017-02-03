@@ -1,5 +1,3 @@
-
-
 body {
     color: rgb(80,80,80);
     font-family: tahoma;
@@ -45,7 +43,7 @@ button#button{
 #numOfTeamToPerformContainer > span {
     margin-right:5px;
 }
-.teamBox,.selected {
+.teamBox,.selected,.select {
     width: 99px;
     height: 50px;
     text-align: center;
@@ -60,8 +58,11 @@ button#button{
 .teamBox {
     background-color: rgba(240,140,240,.8);
 }
+.select {
+   background-color: rgb(90,180,80);
+}
 .selected {
-   background-color: rgb(90,180,80); 
+   box-shadow: 5px 5px 15px rgb(100,100,100);
 }
 .clr {
     height:1px;

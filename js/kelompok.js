@@ -1,118 +1,150 @@
 $(document).ready(() => {
 
-    var button = $('#button').button();
-    var totalTeam = $("#totalTeam");
-    var numberOfTeam = $('#numOfTeamToPerform');
+    const EASING_EASE_OUT_BOUNCE = 'easeOutBounce';
+    const EASING_ELASTIC_OUT = 'easeOutElastic';
+    const BOX_SELECT_CSS_CLASS = 'select';
+    const BOX_SELECTED_CSS_CLASS = 'selected';
+    const BOX_DEFAULT_CSS_CLASS = 'teamBox';
+
+    const NUMBER_OF_RANDOM_SELECT_ITERATION = 10;
+
+    const DEFAULT_TEAM_BOX_HEIGHT = 96;
+
+    const DELAY_BETWEEN_TEAM_BOX_SHOW = 100;
+    const TEAM_BOX_SHOW_ANIMATION_SPEED = 300;
+    const TEAM_BOX_CONTAINER_ANIMATION_SPEED = 1000;
+    const TEAM_BOX_SELECT_DELAY = 100;
+    const TEAM_BOX_UNSELECT_DELAY = 100;
+
+    const button = $('#button').button();
+    const totalTeam = $("#totalTeam");
+    const numberOfTeam = $('#numOfTeamToPerform');
+    const container = $('#boxContainer');
+
 
     button.click((e) => {
         button.button({
             disabled:true
         });
-        var count = 0;
-        var container = $('#boxContainer');
-        var teamToPerform = [];
 
         container.html('');
-        
-        var totalTeamValue = totalTeam.val() ? totalTeam.val() : 1;
-        var numberOfTeamToPerform = numberOfTeam.val() ? numberOfTeam.val() : 1;
-        
-        generateTeams(container, totalTeamValue);
-        animate(1, function() {
-            tic();
-        });
 
-        function animate(i, callback) {
-            if( i <= totalTeamValue ) {
-                setTimeout(() => {
-                    $(`#box-${i}`).slideDown({
-                        duration:300,
-                        easing:'easeOutBounce',
-                        complete: function() {
-                            animate(++i, callback);
-                        }
+        let totalTeamValue = totalTeam.val() ? totalTeam.val() : 1;
+        let numberOfTeamToPerform = numberOfTeam.val() ? numberOfTeam.val() : 1;
+        
+        generateTeamsBox(container, totalTeamValue, 4, function() {     
+            showTeamBox(1, totalTeamValue, function() {
+                selectTeamBox(0,totalTeamValue, [], numberOfTeamToPerform, function(){
+                    button.button({
+                        disabled:false
                     });
-                },100);
-            } else {
-                callback.call(this);
-            }
-        }
-
-        function tic() {
-            setTimeout(() => {
-                var i = Math.floor(Math.random() * (totalTeamValue - 1 + 1)) + 1;
-                
-                while( teamToPerform.includes(i)) {
-                    i = Math.floor(Math.random() * (totalTeamValue - 1 + 1)) + 1;
-                }
-                
-                let divToHighlight = $(`div#box-${i}`);
-                divToHighlight.addClass('selected');
-                divToHighlight.removeClass('teamBox');
-
-                if( count < 10) {
-                    tac(i);
-                } else {
-                    if( (teamToPerform.length < numberOfTeamToPerform - 1) && !teamToPerform.includes(i) ||  ( teamToPerform.length <  numberOfTeamToPerform - 1)) {
-                        if( (teamToPerform.length < numberOfTeamToPerform - 1) && !teamToPerform.includes(i) ) {
-                            teamToPerform.push(i);
-                        }
-                        count = 0;
-                        tic();
-                    } else {
-                        button.button({
-                            disabled:false
-                        });
-                    }
-                } 
-            },100);
-        }
-
-        function tac(i) {
-            setTimeout(() => {
-                let divToHighlight = $(`div#box-${i}`);
-                divToHighlight.addClass('teamBox')
-                divToHighlight.removeClass('selected');
-                count++;
-                tic();
-            },100);
-        }
-
-        function generateTeams(container, numOfTeam, perRows = 4) {
-
-            let numRows = Math.ceil(numOfTeam / perRows);
-            var number = 0;
-
-            let containerHeight = numRows * 96; 
-            container.animate({
-                height:containerHeight
-            },1000);
-
-            for( let i = 1; i <= numRows; i++ ) {
-                
-                let remainder = numOfTeam - number;
-                let max = remainder > perRows ? perRows : remainder;
-
-                for(let j = 1; j <= max; j++) {
-                    let celDiv = document.createElement('div');
-                    number++;
-                    celDiv.setAttribute('id',`box-${number}`);
-                    celDiv.setAttribute('class','teamBox');
-                    
-                    if(j == 1) {
-                        celDiv.style['margin-left'] = '0px';
-                    }
-
-                    if(j == perRows ) {
-                        celDiv.style['margin-right'] = '0px';
-                    }
-
-                    celDiv.appendChild(document.createTextNode(number));
-
-                    container.append(celDiv);
-                }
-            }
-            return container;
-        }
+                });
+            });
+        });
+        
     });
+
+    function showTeamBox(lastIteration, totalTeamValue, done) {
+
+        if( lastIteration > totalTeamValue ) {
+            if( typeof(done) === 'function' ) {
+                done();
+            }
+            return;
+        }
+        
+        setTimeout(() => {
+            $(`#box-${lastIteration}`).slideDown({
+                duration:TEAM_BOX_SHOW_ANIMATION_SPEED,
+                easing: EASING_EASE_OUT_BOUNCE,
+                complete: function() {
+                    showTeamBox(++lastIteration, totalTeamValue, done);
+                }
+            });
+        },DELAY_BETWEEN_TEAM_BOX_SHOW);
+    }
+
+    function generateRandomNumber(min, max) {
+        let randomNumber = Math.floor(Math.random() * (max - min + min)) + 1;
+        return randomNumber;
+    }
+
+    function selectTeamBox(count, totalTeamValue, arrayOfTeamsToPerform, numberOfTeamToPerform, done) {
+        setTimeout(() => {
+            var teamNumber = generateRandomNumber(1, totalTeamValue);
+            while( arrayOfTeamsToPerform.includes(teamNumber)) {
+                teamNumber = generateRandomNumber(1,totalTeamValue);
+            }
+            
+            let divToHighlight = $(`div#box-${teamNumber}`);
+
+            divToHighlight.addClass(BOX_SELECT_CSS_CLASS);
+            divToHighlight.removeClass(BOX_DEFAULT_CSS_CLASS);
+
+            if( count < NUMBER_OF_RANDOM_SELECT_ITERATION) {
+                unselectTeamBox(teamNumber, totalTeamValue, arrayOfTeamsToPerform, numberOfTeamToPerform, count, done);
+            } else {
+                arrayOfTeamsToPerform.push(teamNumber);
+                if( arrayOfTeamsToPerform.length <= numberOfTeamToPerform ) {
+                    if( arrayOfTeamsToPerform.length < numberOfTeamToPerform ) {
+                        selectTeamBox(0, totalTeamValue, arrayOfTeamsToPerform, numberOfTeamToPerform, done);
+                    }
+                    divToHighlight.addClass(`${BOX_SELECTED_CSS_CLASS} ${BOX_SELECT_CSS_CLASS}`, 500, EASING_ELASTIC_OUT);
+                } else{
+                    done();
+                }
+            }
+        },TEAM_BOX_SELECT_DELAY);
+    }
+
+    function unselectTeamBox(currentTeamNumber, totalTeamValue, arrayOfTeamsToPerform, numberOfTeamToPerform, count, done) {
+        setTimeout(() => {
+            let divToHighlight = $(`div#box-${currentTeamNumber}`);
+            divToHighlight.addClass(BOX_DEFAULT_CSS_CLASS)
+            divToHighlight.removeClass(BOX_SELECT_CSS_CLASS);
+            count++;
+            selectTeamBox(count, totalTeamValue, arrayOfTeamsToPerform, numberOfTeamToPerform, done);
+        },TEAM_BOX_UNSELECT_DELAY);
+    }
+
+    function generateTeamsBox(container, numOfTeam, perRows = 4, done) {
+
+        let numRows = Math.ceil(numOfTeam / perRows);
+        var number = 0;
+
+        let containerHeight = numRows * DEFAULT_TEAM_BOX_HEIGHT; 
+        container.animate({
+            height:containerHeight
+        },TEAM_BOX_CONTAINER_ANIMATION_SPEED, EASING_ELASTIC_OUT);
+
+        for( let i = 1; i <= numRows; i++ ) {
+            
+            let remainder = numOfTeam - number;
+            let max = remainder > perRows ? perRows : remainder;
+
+            for(let j = 1; j <= max; j++) {
+                let celDiv = document.createElement('div');
+                number++;
+                celDiv.setAttribute('id',`box-${number}`);
+                celDiv.setAttribute('class',BOX_DEFAULT_CSS_CLASS);
+                
+                if(j == 1) {
+                    celDiv.style['margin-left'] = '0px';
+                }
+
+                if(j == perRows ) {
+                    celDiv.style['margin-right'] = '0px';
+                }
+
+                celDiv.appendChild(document.createTextNode(number));
+
+                container.append(celDiv);
+            }
+        }
+
+        if( typeof(done) === 'function' ) {
+            return done.call(this,container);
+        }
+        return container;
+    }
 });
