@@ -35,19 +35,7 @@ $(document).ready(() => {
             generateTeamsBox(container, totalTeamValue, 4, () => { 
                 showTeamBox(1, totalTeamValue, () =>  {
                     selectTeamBox(0,totalTeamValue, [], numberOfTeamToPerform, () => {
-                        button.button({
-                            disabled:false
-                        });
-
-                        $('div.selected').each((index, elm) => {
-                            var _self = $(`div#${elm.id}`);
-                            _self.mouseenter((e) => {
-                                _self.addClass(BOX_HOVER_CSS_CLASS,1000); 
-                            })
-                            .mouseleave((e) => {
-                                _self.removeClass(BOX_HOVER_CSS_CLASS,1000);
-                            });
-                        });
+                        button.button( { disabled:false } );
                     });
                 });
             });

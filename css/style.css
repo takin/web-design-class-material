@@ -57,7 +57,7 @@ button#button{
 .teamBox {
     background: linear-gradient(-20deg, rgb(160,110,230), rgb(220,120,250));
 }
-.hover {
+.selected:hover {
    box-shadow: 3px 3px 10px rgb(10,50,10);
 }
 .selected {
