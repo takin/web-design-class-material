@@ -1,12 +1,12 @@
 $(document).ready(() => {
 
-    const EASING_EASE_OUT_BOUNCE = 'easeOutBounce';
-    const EASING_ELASTIC_OUT = 'easeOutElastic';
-    const BOX_SELECT_CSS_CLASS = 'select';
+    const SHOW_TEAM_BOX_EASING = 'easeOutBounce';
+    const BOX_CONTAINER_HEIGHT_EASING = 'easeInQuad';
+    const BOX_HOVER_CSS_CLASS = 'hover';
     const BOX_SELECTED_CSS_CLASS = 'selected';
     const BOX_DEFAULT_CSS_CLASS = 'teamBox';
 
-    const NUMBER_OF_RANDOM_SELECT_ITERATION = 10;
+    const NUMBER_OF_RANDOM_SELECT_ITERATION = 5;
 
     const DEFAULT_TEAM_BOX_HEIGHT = 96;
 
@@ -23,25 +23,36 @@ $(document).ready(() => {
 
 
     button.click((e) => {
-        button.button({
-            disabled:true
-        });
-
-        container.html('');
 
         let totalTeamValue = totalTeam.val() ? totalTeam.val() : 1;
         let numberOfTeamToPerform = numberOfTeam.val() ? numberOfTeam.val() : 1;
         
-        generateTeamsBox(container, totalTeamValue, 4, function() {     
-            showTeamBox(1, totalTeamValue, function() {
-                selectTeamBox(0,totalTeamValue, [], numberOfTeamToPerform, function(){
-                    button.button({
-                        disabled:false
+        if( totalTeamValue > numberOfTeamToPerform ){
+            button.button({
+                disabled:true
+            });
+            container.html('');
+
+            generateTeamsBox(container, totalTeamValue, 4, () => { 
+                showTeamBox(1, totalTeamValue, () =>  {
+                    selectTeamBox(0,totalTeamValue, [], numberOfTeamToPerform, () => {
+                        button.button({
+                            disabled:false
+                        });
+
+                        $('div.selected').each((index, elm) => {
+                            var _self = $(`div#${elm.id}`);
+                            _self.mouseenter((e) => {
+                                _self.addClass(BOX_HOVER_CSS_CLASS,1000); 
+                            })
+                            .mouseleave((e) => {
+                                _self.removeClass(BOX_HOVER_CSS_CLASS,1000);
+                            });
+                        });
                     });
                 });
             });
-        });
-        
+        }
     });
 
     function showTeamBox(lastIteration, totalTeamValue, done) {
@@ -50,13 +61,13 @@ $(document).ready(() => {
             if( typeof(done) === 'function' ) {
                 done();
             }
-            return;
+            return true;
         }
         
         setTimeout(() => {
             $(`#box-${lastIteration}`).slideDown({
                 duration:TEAM_BOX_SHOW_ANIMATION_SPEED,
-                easing: EASING_EASE_OUT_BOUNCE,
+                easing: SHOW_TEAM_BOX_EASING,
                 complete: function() {
                     showTeamBox(++lastIteration, totalTeamValue, done);
                 }
@@ -78,7 +89,7 @@ $(document).ready(() => {
             
             let divToHighlight = $(`div#box-${teamNumber}`);
 
-            divToHighlight.addClass(BOX_SELECT_CSS_CLASS);
+            divToHighlight.addClass(BOX_SELECTED_CSS_CLASS);
             divToHighlight.removeClass(BOX_DEFAULT_CSS_CLASS);
 
             if( count < NUMBER_OF_RANDOM_SELECT_ITERATION) {
@@ -89,9 +100,12 @@ $(document).ready(() => {
                     if( arrayOfTeamsToPerform.length < numberOfTeamToPerform ) {
                         selectTeamBox(0, totalTeamValue, arrayOfTeamsToPerform, numberOfTeamToPerform, done);
                     }
-                    divToHighlight.addClass(`${BOX_SELECTED_CSS_CLASS} ${BOX_SELECT_CSS_CLASS}`, 500, EASING_ELASTIC_OUT);
-                } else{
-                    done();
+
+                    divToHighlight.addClass(BOX_SELECTED_CSS_CLASS, 1500);
+                    
+                    if( arrayOfTeamsToPerform.length == numberOfTeamToPerform ) {
+                        done();
+                    }
                 }
             }
         },TEAM_BOX_SELECT_DELAY);
@@ -101,7 +115,7 @@ $(document).ready(() => {
         setTimeout(() => {
             let divToHighlight = $(`div#box-${currentTeamNumber}`);
             divToHighlight.addClass(BOX_DEFAULT_CSS_CLASS)
-            divToHighlight.removeClass(BOX_SELECT_CSS_CLASS);
+            divToHighlight.removeClass(BOX_SELECTED_CSS_CLASS);
             count++;
             selectTeamBox(count, totalTeamValue, arrayOfTeamsToPerform, numberOfTeamToPerform, done);
         },TEAM_BOX_UNSELECT_DELAY);
@@ -115,7 +129,7 @@ $(document).ready(() => {
         let containerHeight = numRows * DEFAULT_TEAM_BOX_HEIGHT; 
         container.animate({
             height:containerHeight
-        },TEAM_BOX_CONTAINER_ANIMATION_SPEED, EASING_ELASTIC_OUT);
+        },TEAM_BOX_CONTAINER_ANIMATION_SPEED, BOX_CONTAINER_HEIGHT_EASING);
 
         for( let i = 1; i <= numRows; i++ ) {
             
@@ -123,8 +137,10 @@ $(document).ready(() => {
             let max = remainder > perRows ? perRows : remainder;
 
             for(let j = 1; j <= max; j++) {
-                let celDiv = document.createElement('div');
                 number++;
+                
+                let celDiv = document.createElement('div');
+                
                 celDiv.setAttribute('id',`box-${number}`);
                 celDiv.setAttribute('class',BOX_DEFAULT_CSS_CLASS);
                 

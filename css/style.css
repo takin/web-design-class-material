@@ -43,26 +43,26 @@ button#button{
 #numOfTeamToPerformContainer > span {
     margin-right:5px;
 }
-.teamBox,.selected,.select {
+.teamBox,.selected {
     width: 99px;
     height: 50px;
     text-align: center;
     padding: 20px 0;
     display: none;
     font-size: 38px;
-    border-radius: 5px;
     color: rgb(255,255,255);
     float:left;
     margin:3px;
 }
 .teamBox {
-    background-color: rgba(240,140,240,.8);
+    background: linear-gradient(-20deg, rgb(160,110,230), rgb(220,120,250));
 }
-.select {
-   background-color: rgb(90,180,80);
+.hover {
+   box-shadow: 3px 3px 10px rgb(10,50,10);
 }
 .selected {
-   box-shadow: 5px 5px 15px rgb(100,100,100);
+   background: linear-gradient(-20deg, rgb(85,162,50), rgb(145,212,110));
+   transition: all 0.3s ease;
 }
 .clr {
     height:1px;
