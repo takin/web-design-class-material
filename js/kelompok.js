@@ -1,7 +1,7 @@
 $(document).ready(() => {
 
     const SHOW_TEAM_BOX_EASING = 'easeOutBounce';
-    const BOX_CONTAINER_HEIGHT_EASING = 'easeInQuad';
+    const BOX_CONTAINER_HEIGHT_EASING = 'easeOutQuart';
     const BOX_HOVER_CSS_CLASS = 'hover';
     const BOX_SELECTED_CSS_CLASS = 'selected';
     const BOX_DEFAULT_CSS_CLASS = 'teamBox';
@@ -12,7 +12,7 @@ $(document).ready(() => {
 
     const DELAY_BETWEEN_TEAM_BOX_SHOW = 100;
     const TEAM_BOX_SHOW_ANIMATION_SPEED = 300;
-    const TEAM_BOX_CONTAINER_ANIMATION_SPEED = 1000;
+    const TEAM_BOX_CONTAINER_ANIMATION_SPEED = 800;
     const TEAM_BOX_SELECT_DELAY = 100;
     const TEAM_BOX_UNSELECT_DELAY = 100;
 
@@ -24,9 +24,8 @@ $(document).ready(() => {
 
     button.click((e) => {
 
-        let totalTeamValue = totalTeam.val() ? totalTeam.val() : 1;
-        let numberOfTeamToPerform = numberOfTeam.val() ? numberOfTeam.val() : 1;
-        
+        let totalTeamValue = parseInt(totalTeam.val());
+        let numberOfTeamToPerform = parseInt(numberOfTeam.val());
         if( totalTeamValue > numberOfTeamToPerform ){
             button.button({
                 disabled:true
